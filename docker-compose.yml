@@ -12,10 +12,8 @@ services:
     nginx:
         image: nginx:1.11-alpine
         command: nginx -g 'daemon off;' -c /etc/netbox-nginx/nginx.conf
-        depends_on:
-        - netbox
         ports:
-        - 80
+        - 80:80
         volumes:
         - netbox-static-files:/opt/netbox/netbox/static
         - netbox-nginx-config:/etc/netbox-nginx/
@@ -25,6 +23,8 @@ services:
             POSTGRES_USER: netbox
             POSTGRES_PASSWORD: J5brHrAXFLQSif0K
             POSTGRES_DB: netbox
+        volumes:
+        - netbox-data:/var/lib/postgresql/data
 volumes:
     netbox-static-files:
         driver: local

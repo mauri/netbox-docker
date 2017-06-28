@@ -18,7 +18,7 @@ RUN apk add --no-cache \
 
 WORKDIR /opt
 
-ARG BRANCH=v2-beta
+ARG BRANCH=v2.0.7
 ARG URL=https://github.com/digitalocean/netbox/archive/$BRANCH.tar.gz
 RUN wget -q -O - "${URL}" | tar xz \
   && ln -s netbox* netbox
@@ -27,6 +27,7 @@ WORKDIR /opt/netbox
 RUN pip install -r requirements.txt
 
 RUN ln -s configuration.docker.py netbox/netbox/configuration.py
+COPY docker/nginx.conf /etc/netbox-nginx/nginx.conf
 COPY docker/gunicorn_config.py /opt/netbox/
 
 COPY docker/docker-entrypoint.sh /docker-entrypoint.sh
